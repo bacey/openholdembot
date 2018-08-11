@@ -14,6 +14,14 @@
 #define DEBUG_DLL_EXPORTS
 
 #include "debug.h"
+
+// vld.h must be included before afxwin.h:
+#if _DEBUG
+// visual leak detector in debug-mode
+// https://kinddragon.github.io/vld/
+#include <vld.h>
+#endif _DEBUG
+
 #include "afxwin.h"
 #include <assert.h>
 #include <stdarg.h>
@@ -22,12 +30,6 @@
 #include "..\Files_DLL\Files.h"
 #include "..\..\Shared\CCritSec\CCritSec.h"
 #include "..\..\Shared\MagicNumbers\MagicNumbers.h"
-
-#ifdef _DEBUG
-// visual leak detector in debug-mode
-// https://vld.codeplex.com/
-#include <vld.h>			
-#endif _DEBUG
 
 FILE *log_fp = NULL;
 int session_ID = kUndefined;
