@@ -20,6 +20,8 @@
 #include "user.h"
 #include <conio.h>
 #include <windows.h>
+#include <cpr/cpr.h>
+#include <iostream>
 #include "OpenHoldemFunctions.h"
 
 //******************************************************************************
@@ -68,6 +70,15 @@ DLL_IMPLEMENTS double __stdcall ProcessQuery(const char* pquery) {
   if (strncmp(pquery,"dll$test",9)==0) {
     MessageBox(0, GetTableTitle(), TEXT("Table title"), 0);
 	  MessageBox(0, GetPlayerName(0), TEXT("Name of player 0"), 0);
+
+	  /*
+	  auto r = cpr::Post(cpr::Url{ "http://httpbin.org/post" },
+		  cpr::Body{ R"({"Id":1, "Name":"ElectricFan","Qty":14,"Price":20.90})" },
+		  cpr::Header{ { "Content-Type", "application/json" } });
+	  */
+
+	  auto r = cpr::Get(cpr::Url{ "http://httpbin.org/get?asd=bsd" });
+
     return GetSymbol("random");
   }
   if (strncmp(pquery, "dll$scrape", 11) == 0) {
