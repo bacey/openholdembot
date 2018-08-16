@@ -1,94 +1,3 @@
-##notes##
-
-
-
-##f$sitin##
-WHEN (f2 AND issittingout) RETURN true FORCE
-
-
-##f$sitout##
-WHEN (f3 AND issittingin) RETURN true FORCE
-
-
-##f$close##
-WHEN f0 RETURN true FORCE
-
-
-##f$prefold##
-dll$test
-
-
-##f$chat##
-msgbox$Hello_This_Bis_Ba_Bmanual_Bbot_Bfor_Btablemap_Btesting_D_NUse_Bthe_Bflag_Bbuttons_Bto_Bplay_D_NPress_Bflag_B1_Bfor_Bhelp_D
-
-
-##f$delay##
-// If no flag is pressed then give the user some time to act
-// before we beep.
-WHEN (flagbits <= 0) RETURN 5000 FORCE
-
-
-##f$allin_on_betsize_balance_ratio##
-// Allin if betsize is more than X% of our total balance (including currentbet).
-// This affects f$betsize and all f$betpot_X_Y_ functions.
-//  0.00 =  0% = disabled
-//  0.50 = 50%
-0.00
-
-
-##f$shoot_replay_frame##
-
-
-
-##f$ini_function_on_startup##
-msgbox$This_Bis_Ba_Bmanual_Bbot_Bfor_Btablemap_Btesting_D_NUse_Bthe_Bflag_Bbuttons_Bto_Bplay_D_NPress_Bflag_B1_Bfor_Bhelp_D
-
-
-##f$ini_function_on_heartbeat##
-WHEN f1 RETURN f$show_help FORCE
-
-
-##f$debug##
-
-
-
-##f$preflop##
-f$manual_decision
-
-
-##f$flop##
-f$manual_decision
-
-
-##f$turn##
-f$manual_decision
-
-
-##f$river##
-f$manual_decision
-
-
-##f$manual_decision##
-// If no flag is pressed we beep after some seconds
-// (when we have stable frames).
-// We don't want the default-bot to act unexpectedly
-// if the user is slow with his action.
-// WHEN (flagbits <= 0) Beep FORCE
-// WHEN f19 RaiseMax FORCE
-// WHEN f17 RaisePot FORCE
-// WHEN f16 RaiseThreeFourthPot FORCE
-// WHEN f15 RaiseTwoThirdPot FORCE
-// WHEN f14 RaiseHalfPot FORCE
-// WHEN f13 RaiseThirdPot FORCE
-// WHEN f12 RaiseFourthPot FORCE
-// WHEN f8 RaiseTo 4 FORCE
-// WHEN f7 RaiseMin FORCE
-// WHEN (f6 AND (AmountToCall > 0)) Call FORCE
-// WHEN (f6 AND (AmountToCall == 0)) Check FORCE
-// WHEN f5 Fold FORCE
-msgbox$f0_BMANUAL_DECISION_N_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_Bprefold_N
-
-
 ##f$notes##
 //*****************************************************************************
 //
@@ -108,11 +17,11 @@ msgbox$f0_BMANUAL_DECISION_N_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_B
 // Required OpenHoldem version: 13.0.0 or later
 //
 //*****************************************************************************
-//
+// 
 // Flag buttons
 // ============
 //   f0  f$close
-//   f1  Show help
+//   f1  Show help 
 //   f2  f$sitin
 //   f3  f4sitout
 //   f4  f$prefold
@@ -120,7 +29,7 @@ msgbox$f0_BMANUAL_DECISION_N_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_B
 //   f6  f$call / f$check
 //   f7  f$rais
 //   f8  f$betsize, RaiseTo 4
-//   f9  reserved (X2, not yet supported)
+//   f9  reserved (X2, not yet supported) 
 //   f10 reserved (X3, not yet supported)
 //   f11 reserved (X4, not yet supported)
 //   f12 betpot_1_4
@@ -134,6 +43,54 @@ msgbox$f0_BMANUAL_DECISION_N_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_B
 //
 //*****************************************************************************
 
+##f$preflop##
+f$manual_decision
+
+##f$flop##
+f$manual_decision
+
+##f$turn##
+f$manual_decision
+
+##f$river##
+f$manual_decision
+
+##f$manual_decision##
+// If no flag is pressed we beep after some seconds 
+// (when we have stable frames).
+// We don't want the default-bot to act unexpectedly
+// if the user is slow with his action.
+WHEN (flagbits <= 0) Beep FORCE
+WHEN f19 RaiseMax FORCE
+WHEN f17 RaisePot FORCE
+WHEN f16 RaiseThreeFourthPot FORCE
+WHEN f15 RaiseTwoThirdPot FORCE
+WHEN f14 RaiseHalfPot FORCE
+WHEN f13 RaiseThirdPot FORCE
+WHEN f12 RaiseFourthPot FORCE
+WHEN f8 RaiseTo 4 FORCE
+WHEN f7 RaiseMin FORCE
+WHEN (f6 AND (AmountToCall > 0)) Call FORCE
+WHEN (f6 AND (AmountToCall == 0)) Check FORCE
+WHEN f5 Fold FORCE
+
+##f$close##
+WHEN f0 RETURN true FORCE
+
+##f$sitin##
+WHEN (f2 AND issittingout) RETURN true FORCE
+
+##f$sitout##
+WHEN (f3 AND issittingin) RETURN true FORCE
+
+##f$prefold##
+WHEN f4 RETURN true FORCE
+
+##f$ini_function_on_startup##
+msgbox$This_Bis_Ba_Bmanual_Bbot_Bfor_Btablemap_Btesting_D_NUse_Bthe_Bflag_Bbuttons_Bto_Bplay_D_NPress_Bflag_B1_Bfor_Bhelp_D
+
+##f$ini_function_on_heartbeat##
+WHEN f1 RETURN f$show_help FORCE
 
 ##f$show_help##
   msgbox$f0_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_Bprefold_N
@@ -141,4 +98,7 @@ msgbox$f0_BMANUAL_DECISION_N_Bclose_Nf1_Bshow_Bhelp_Nf2_Bsitin_Nf3_Bsitout_Nf4_B
 + msgbox$f12_Bbetpot_U1_U4_Nf13_Bbetpot_U1_U3_Nf14_Bbetpot_U1_U2_Nf15_Bbetpot_U2_U3_N
 + msgbox$f16_Bbetpot_U3_U4_Nf17_Bbetpot_U1_U1_Nf19_Ballin_N
 
-
+##f$delay##
+// If no flag is pressed then give the user some time to act
+// before we beep.
+WHEN (flagbits <= 0) RETURN 5000 FORCE
