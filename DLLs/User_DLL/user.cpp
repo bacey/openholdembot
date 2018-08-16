@@ -18,11 +18,13 @@
 #define USER_DLL
 
 #include "user.h"
-#include <conio.h>
+//#include <conio.h>
 #include <windows.h>
+//#include <iostream>
 #include <cpr/cpr.h>
-#include <iostream>
 #include "OpenHoldemFunctions.h"
+
+using namespace cpr;
 
 //******************************************************************************
 //
@@ -64,37 +66,28 @@ void __stdcall DLLUpdateOnHeartbeat() {
 //******************************************************************************
 
 DLL_IMPLEMENTS double __stdcall ProcessQuery(const char* pquery) {
-  if (pquery == NULL) {
-    return 0;
-  }
-  if (strncmp(pquery,"dll$test",9)==0) {
-    MessageBox(0, GetTableTitle(), TEXT("Table title"), 0);
-	  MessageBox(0, GetPlayerName(0), TEXT("Name of player 0"), 0);
+	const double defaultActionCode = 0;
 
-	  /*
-	  auto r = cpr::Post(cpr::Url{ "http://httpbin.org/post" },
-		  cpr::Body{ R"({"Id":1, "Name":"ElectricFan","Qty":14,"Price":20.90})" },
-		  cpr::Header{ { "Content-Type", "application/json" } });
-	  */
+	if (pquery == NULL) {
+		return defaultActionCode;
+	}
 
-	  auto r = cpr::Get(cpr::Url{ "http://httpbin.org/get?asd=bsd" });
+	if (strncmp(pquery, "dll$askExternalServer", 22) == 0) {
+		// TODO bjuhasz: move into a separate class which also transmits the game state
+		// TODO bjuhasz: GET request with body?
+		// TODO bjuhasz: read the URL from a cfg file
+		const Response response = Get(Url{ "http://172.22.125.57:5000/" });
 
-    return GetSymbol("random");
-  }
-  if (strncmp(pquery, "dll$scrape", 11) == 0) {
-    char* scraped_result;
-    int result_lenght;
-    scraped_result = ScrapeTableMapRegion("p0balance", result_lenght);
-    if (scraped_result != nullptr) {
-      // The TEXT() macro supports both ASCII and Unicode.
-      // For the people who use Unicode but don't understand the "error".
-      // http://www.maxinmontreal.com/forums/viewtopic.php?f=174&t=19999
-      // http://stackoverflow.com/questions/15498070/what-does-t-stands-for-in-a-cstring
-      MessageBox(0, scraped_result, TEXT("Scraped custom region"), 0);
-      LocalFree(scraped_result);
-    }
-  }
-	return 0;
+		if (response.status_code == 200) {
+			double actionCode = std::stod(response.text);
+			return actionCode;
+		}
+		else {
+			// TODO bjuhasz: log the Response object
+		}
+	}
+
+	return defaultActionCode;
 }
 
 //******************************************************************************
