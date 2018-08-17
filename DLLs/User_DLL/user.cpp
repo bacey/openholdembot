@@ -25,7 +25,7 @@
 #include "ExternalBotLogicClient.h"
 
 // TODO bjuhasz: is this global? Is it visible from everywhere?
-ExternalBotLogicClient *client;
+ExternalBotLogicClient client;
 
 //******************************************************************************
 //
@@ -36,7 +36,6 @@ ExternalBotLogicClient *client;
 //******************************************************************************
 
 void DLLOnLoad() {
-	client = new ExternalBotLogicClient();
 }
 
 void DLLOnUnLoad() {
@@ -76,7 +75,7 @@ DLL_IMPLEMENTS double __stdcall ProcessQuery(const char* pquery) {
 
 	if (strncmp(pquery, "dll$askExternalBotLogicServer", 30) == 0) {
 		try {
-			return client->askExternalBotLogicServer();
+			return client.askExternalBotLogicServer();
 		}
 		catch (const std::domain_error& e) {
 			// TODO log the error

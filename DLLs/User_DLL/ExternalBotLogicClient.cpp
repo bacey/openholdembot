@@ -5,6 +5,11 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 
+// TODO bjuhasz: these are needed only by GetCurrentDirectory,
+// delete them later
+#include <windows.h>
+#include <string>
+
 #include "INIReader.h"
 #include "ExternalBotLogicClient.h"
 #include "OpenHoldemFunctions.h"
@@ -39,25 +44,21 @@ double ExternalBotLogicClient::askExternalBotLogicServer() {
 
 	string s = j2.dump();
 
-	INIReader reader("user.ini");
+	//#define MAX_PATH 10000
+	//TCHAR pwd[MAX_PATH];
+	//GetCurrentDirectory(MAX_PATH, pwd);
 
-	if (reader.ParseError() < 0) {
+	INIReader iniReader("user.ini");
+
+	if (iniReader.ParseError() < 0) {
 		std::cout << "Couldn't load 'user.ini'\n";
 		return 1;
 	}
 
-	const string serverUrl = reader.Get("server", "url", "http://localhost:5000/");
+	const string defaultServerUrl = "http://localhost:5000/";
+	const string serverUrl = iniReader.Get("server", "url", defaultServerUrl);
 
-	/*
-	std::cout << "Config loaded from 'test.ini': version="
-		<< reader.GetInteger("protocol", "version", -1) << ", name="
-		<<  << ", email="
-		<< reader.Get("user", "email", "UNKNOWN") << ", pi="
-		<< reader.GetReal("user", "pi", -1) << ", active="
-		<< reader.GetBoolean("user", "active", true) << "\n";
-	*/
-
-	const Response response = Get(Url{ "http://172.22.125.57:5000/" });
+	const Response response = Get(Url{ serverUrl });
 
 	if (response.status_code == 200) {
 		double actionCode = stod(response.text);
