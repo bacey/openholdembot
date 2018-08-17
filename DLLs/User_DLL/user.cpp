@@ -17,14 +17,15 @@
 // to generate proper export- and inport-definitions
 #define USER_DLL
 
-#include "user.h"
+#include <stdexcept>
+//#include "user.h"
 //#include <conio.h>
 #include <windows.h>
 //#include <iostream>
-#include <cpr/cpr.h>
-#include "OpenHoldemFunctions.h"
+#include "ExternalBotLogicClient.h"
 
-using namespace cpr;
+// TODO bjuhasz: is this global? Is it visible from everywhere?
+ExternalBotLogicClient *client;
 
 //******************************************************************************
 //
@@ -35,6 +36,7 @@ using namespace cpr;
 //******************************************************************************
 
 void DLLOnLoad() {
+	client = new ExternalBotLogicClient();
 }
 
 void DLLOnUnLoad() {
@@ -72,18 +74,12 @@ DLL_IMPLEMENTS double __stdcall ProcessQuery(const char* pquery) {
 		return defaultActionCode;
 	}
 
-	if (strncmp(pquery, "dll$askExternalServer", 22) == 0) {
-		// TODO bjuhasz: move into a separate class which also transmits the game state
-		// TODO bjuhasz: GET request with body?
-		// TODO bjuhasz: read the URL from a cfg file
-		const Response response = Get(Url{ "http://172.22.125.57:5000/" });
-
-		if (response.status_code == 200) {
-			double actionCode = std::stod(response.text);
-			return actionCode;
+	if (strncmp(pquery, "dll$askExternalBotLogicServer", 30) == 0) {
+		try {
+			return client->askExternalBotLogicServer();
 		}
-		else {
-			// TODO bjuhasz: log the Response object
+		catch (const std::domain_error& e) {
+			// TODO log the error
 		}
 	}
 
