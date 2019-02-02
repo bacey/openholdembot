@@ -1,0 +1,10 @@
+https://www.microsoft.com/net/download/visual-studio-sdks
+.NET Framework 4.5.2 developer pack
+
+$env:Protobuf_DIR = "c:\Users\juhaszbe\source\repos\vcpkg\installed\x86-windows\share\protobuf"
+$env:gRPC_DIR = "c:\Users\juhaszbe\source\repos\vcpkg\installed\x86-windows\share\grpc"
+
+c:\users\juhaszbe\source\repos\openholdembot\SymbolDumperUserDll\AllSymbols.h
+c:\users\juhaszbe\source\repos\openholdembot\DLLs\User_DLL\user.ini
+c:\users\juhaszbe\apps\O\bot_logic\msgboxes6.ohf
+
