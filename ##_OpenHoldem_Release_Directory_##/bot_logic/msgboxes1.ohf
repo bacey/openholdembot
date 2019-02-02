@@ -1,0 +1,77 @@
+##notes##
+ msgbox$notes
+
+##f$prefold##
+msgbox$prefold
+WHEN IsPostflop    RETURN false FORCE
+WHEN (call < 0.01) RETURN false FORCE
+WHEN (InBigBlind        AND NOT listGecko07)  RETURN true FORCE
+WHEN (InSmallBlind      AND NOT listGecko900) RETURN true FORCE
+WHEN (InButton          AND NOT listGecko900) RETURN true FORCE
+WHEN (InCutOff          AND NOT listGecko05)  RETURN true FORCE
+WHEN (InMiddlePosition3 AND NOT listGecko02)  RETURN true FORCE
+WHEN (InMiddlePosition2 AND NOT listGecko01)  RETURN true FORCE
+// Extended to full-ring
+// Simply assuming we can fold in early position as much as in MP2
+WHEN (Others            AND NOT listGecko01)  RETURN true FORCE
+
+
+##f$chat##
+ msgbox$chat
+
+##f$delay##
+// Rendom delay of 0..3000 milli-seconds
+Random * 30
+
+
+##f$allin_on_betsize_balance_ratio##
+msgbox$allin_on_betsize
+// Not present in Geckos original bot for OpenHoldem 2.x,
+// His code suggests that he wanted it to be 0.66,
+// but as Gecko used raise-by-semantics and we use raise-to
+// about 0.50 looks like a more appropriate value,
+// firther improving it to 40% OOP,
+// Fail-safe for mis-scraped stacks
+WHEN (StackSize <= 0) RETURN 0.00 FORCE
+WHEN NOT HandIsHeadsup RETURN f$positional_allin_on_betsize_balance_ratio FORCE
+// Sole opponent already allin or mis-scraped opponents stack
+WHEN (StackSize_headsupchair <= 0) RETURN f$positional_allin_on_betsize_balance_ratio FORCE
+// Opponents stack larger than ours: normal behaviour
+WHEN (StackSize_headsupchair >= StackSize) RETURN f$positional_allin_on_betsize_balance_ratio FORCE
+// Single opponent with smaller stack.
+// Go more lightly allin if our bet is more than 50% of his stack.
+WHEN Others RETURN (f$positional_allin_on_betsize_balance_ratio * (StackSize_headsupchair / StackSize)) FORCE
+
+
+##f$shoot_replay_frame##
+ msgbox$shoot
+
+##f$ini_function_on_startup##
+// Ini-functions are meant for
+//   * Initialization of memory-symbols at well-defined times
+//   * Triggering calculations, e.g. in a DLL
+
+
+##f$ini_function_on_new_round##
+ msgbox$new_round
+
+##f$ini_function_on_my_turn##
+ msgbox$my_turn
+
+##f$ini_function_on_heartbeat##
+ msgbox$heartbeet
+
+##f$debug##
+
+##f$preflop##
+ msgbox$preflop
+
+##f$flop##
+ msgbox$flop
+
+##f$turn##
+ msgbox$turn
+
+##f$river##
+ msgbox$river
+

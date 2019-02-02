@@ -1,0 +1,21 @@
+##f$preflop##
+    // This is a comment
+    // Your code belongs here.
+    WHEN 1==1 RaiseMax FORCE	
+    WHEN Others Call FORCE
+​
+
+##f$flop##
+​    WHEN 1==1 RaiseMax FORCE	
+    WHEN Others Call FORCE
+​
+
+##f$turn##
+​    WHEN 1==1 RaiseMax FORCE	
+    WHEN Others Call FORCE
+​
+
+##f$river##
+    WHEN 1==1 RaiseMax FORCE	
+    WHEN Others Call FORCE
+​
